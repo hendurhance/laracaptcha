@@ -36,7 +36,7 @@ return [
             'site_url' => env('RECAPTCHA_SITE_URL'), // Used for reCAPTCHA v3 'action
             'script_url' => 'https://www.google.com/recaptcha/api.js',
             'verify_url' => 'https://www.google.com/recaptcha/api/siteverify',
-            'version' => 'v3', // Supported: v2, v3
+            'version' => 'v2', // Supported: v2, v3
             'options' => [
                 'timeout' => 30,
             ],
@@ -54,14 +54,54 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Captcha View
+    | Captcha Default Language
     |--------------------------------------------------------------------------
     |
-    | Here you may configure the view used to render captcha challenges.
+    | Here you may configure the default language used by the captcha
+    | challenges. Supported: "en", "es", "fr", "pt", "ru", "tr" etc.
+    | @link https://developers.google.com/recaptcha/docs/language Google reCAPTCHA
+    | @link https://docs.hcaptcha.com/languages hCaptcha
     |
     */
 
-    'view' => 'laracaptcha::captcha',
+    'language' => 'en',
+
+    /*
+    |--------------------------------------------------------------------------
+    | reCaptcha v3 Skip IPs
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure whether to skip IP address validation when
+    | validating reCaptcha v3 challenges. This is useful when testing
+    | locally.
+    |
+    */
+
+    'skip_ips' => [],
+
+    /*
+    |--------------------------------------------------------------------------
+    | reCaptcha Input ID
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure the ID of the captcha input field. This is
+    | useful when using multiple captcha challenges on the same page.
+    |
+    */
+
+    'recaptcha_input_identifier' => 'g-recaptcha-response-laracaptcha',
+
+    /*
+    |--------------------------------------------------------------------------
+    | reCaptcha Input Name
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure the name of the captcha input field. This is
+    | useful when using multiple captcha challenges on the same page.
+    |
+    */
+
+    'recaptcha_input_name' => 'g-recaptcha-response',
 
     /*
     |--------------------------------------------------------------------------

@@ -33,5 +33,12 @@ abstract class Driver implements DriverInterface
      */
     protected $verifyResponses = [];
 
+    /**
+     * Display captcha language.
+     * 
+     * @var string
+     */
+    protected $language;
+
     abstract public function __construct();
 }

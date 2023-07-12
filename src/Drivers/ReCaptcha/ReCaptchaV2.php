@@ -1,46 +1,14 @@
 <?php
 
-namespace Martian\LaraCaptcha\Drivers\HCaptcha;
+namespace Martian\LaraCaptcha\Drivers\ReCaptcha;
 
-use GuzzleHttp\Client;
-use Martian\LaraCaptcha\Abstracts\Driver;
+use Martian\LaraCaptcha\Abstracts\ReCaptchaDriver;
 use Martian\LaraCaptcha\Contracts\DisplayInvisibleButtonInterface;
 
-class HCaptcha extends Driver implements DisplayInvisibleButtonInterface
+class ReCaptchaV2 extends ReCaptchaDriver implements DisplayInvisibleButtonInterface
 {
     /**
-     * HCaptcha secret key.
-     * 
-     * @var string
-     */
-    protected string $secret;
-
-    /**
-     * HCaptcha site key.
-     * 
-     * @var string
-     */
-    protected string $siteKey;
-
-    /**
-     * HCaptcha constructor.
-     * 
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->scriptUrl = config('laracaptcha.drivers.hcaptcha.script_url');
-        $this->verifyUrl = config('laracaptcha.drivers.hcaptcha.verify_url');
-        $this->siteKey = config('laracaptcha.drivers.hcaptcha.site_key');
-        $this->secret = config('laracaptcha.drivers.hcaptcha.secret_key');
-        $this->language = config('laracaptcha.language');
-        $this->client = new Client([
-            'timeout' => config('laracaptcha.drivers.hcaptcha.options.timeout'),
-        ]);
-    }
-
-    /**
-     * Display HCaptcha challenge.
+     * Display ReCaptcha challenge.
      * 
      * @param array $attributes
      * @return string
@@ -53,10 +21,10 @@ class HCaptcha extends Driver implements DisplayInvisibleButtonInterface
     }
 
     /**
-     * Display invisible HCaptcha button.
+     * Display invisible ReCaptcha button.
      * 
      * @param string $formId Form identifier.
-     * @param ?string $label Button label.
+     * @param string $label Button label.
      * @param array $attributes
      * @return string
      */
@@ -67,7 +35,7 @@ class HCaptcha extends Driver implements DisplayInvisibleButtonInterface
         if (!isset($attributes['data-callback'])) {
             $callbackFunction = 'onSubmit';
             $attributes['data-callback'] = $callbackFunction;
-            $script = sprintf('<script type="text/javascript">function %s(){document.getElementById("%s").submit();}</script>', $callbackFunction, $formId);
+            $script = sprintf('<script>function %s(){document.getElementById("%s").submit();}</script>', $callbackFunction, $formId);
         }
 
         if (!isset($label) || empty($label)) {
@@ -75,12 +43,12 @@ class HCaptcha extends Driver implements DisplayInvisibleButtonInterface
         }
 
         $attributes = $this->prepareAttributes($attributes);
-        
-        return '<button ' . $this->buildAttributes($attributes) . '>' . $label . '</button>'."\n".$script;
+
+        return '<button ' . $this->buildAttributes($attributes) . '>' . $label . '</button>' . "\n" . $script;
     }
 
     /**
-     * Display HCaptcha javascript.
+     * Display ReCaptcha javascript.
      * 
      * @param ?string $onload Callback function name.
      * @param bool $render Render parameter (explicit|onload)
@@ -91,7 +59,7 @@ class HCaptcha extends Driver implements DisplayInvisibleButtonInterface
     public function script(?string $onload = null, bool $render = false, ?string $locale = null, ?string $recaptchaCompat = null): string
     {
         // Check application locale.
-        if (is_null($locale) && function_exists('app')) {
+        if (!is_null($locale) && function_exists('app')) {
             $locale = app()->getLocale();
         }
 
@@ -99,14 +67,13 @@ class HCaptcha extends Driver implements DisplayInvisibleButtonInterface
             'onload' => $onload,
             'render' => $render ? 'explicit' : 'onload',
             'hl' => $locale ?? $this->language,
-            'recaptcha' => $recaptchaCompat ? 'on' : 'off',
         ]);
 
         return '<script src="' . $this->scriptUrl . '?' . $params . '" async defer></script>'."\n";
     }
 
     /**
-     * Validate captcha challenge.
+     * Validate ReCaptcha response.
      * 
      * @param $res
      * @param string $ipAddress
@@ -114,7 +81,7 @@ class HCaptcha extends Driver implements DisplayInvisibleButtonInterface
      */
     public function validate($res, string $ipAddress = null): bool
     {
-        if(empty($res)) {
+        if (empty($res)) {
             return false;
         }
 
@@ -122,7 +89,7 @@ class HCaptcha extends Driver implements DisplayInvisibleButtonInterface
             $ipAddress = request()->ip();
         }
 
-        // Check if the response has already been verified.
+        // Check if the response has already been verified
         if (in_array($res, $this->verifyResponses)) {
             return true;
         }
@@ -147,43 +114,5 @@ class HCaptcha extends Driver implements DisplayInvisibleButtonInterface
         } catch (\Exception $e) {
             return false;
         }
-    }
-
-    /**
-     * Prepare attributes and apply defaults.
-     * 
-     * @param array $attributes
-     * @return array
-     */
-    protected function prepareAttributes(array $attributes = []): array
-    {
-        $defaults = [
-            'class' => 'h-captcha',
-            'data-sitekey' => $this->siteKey,
-        ];
-        
-        // Merge defaults with attributes, if class is set, append it.
-        if (isset($attributes['class']) && !empty($attributes['class'])) {
-            $defaults['class'] .= ' ' . $attributes['class'];
-        }
-
-        return array_merge($attributes, $defaults);
-    }
-
-    /**
-     * Build HTML attributes from array.
-     * 
-     * @param array $attributes
-     * @return string
-     */
-    protected function buildAttributes(array $attributes): string
-    {
-        $html = '';
-
-        foreach ($attributes as $key => $value) {
-            $html .= $key . '="' . $value . '" ';
-        }
-
-        return trim($html);
     }
 }
