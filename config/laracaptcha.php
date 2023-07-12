@@ -33,8 +33,10 @@ return [
         'recaptcha' => [
             'site_key' => env('RECAPTCHA_SITE_KEY'),
             'secret_key' => env('RECAPTCHA_SECRET_KEY'),
+            'site_url' => env('RECAPTCHA_SITE_URL'), // Used for reCAPTCHA v3 'action
             'script_url' => 'https://www.google.com/recaptcha/api.js',
             'verify_url' => 'https://www.google.com/recaptcha/api/siteverify',
+            'version' => 'v3', // Supported: v2, v3
             'options' => [
                 'timeout' => 30,
             ],
