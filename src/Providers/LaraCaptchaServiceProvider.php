@@ -3,6 +3,7 @@
 namespace Martian\LaraCaptcha\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Martian\LaraCaptcha\LaraCaptcha;
 
 class LaraCaptchaServiceProvider extends ServiceProvider
 {
@@ -21,7 +22,7 @@ class LaraCaptchaServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/config.php' => config_path('laracaptcha.php'),
+                __DIR__.'/../../config/laracaptcha.php' => config_path('laracaptcha.php'),
             ], 'config');
 
             // Publishing the views.
@@ -50,11 +51,11 @@ class LaraCaptchaServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'laracaptcha');
+        $this->mergeConfigFrom(__DIR__.'/../../config/laracaptcha.php', 'laracaptcha');
 
         // Register the main class to use with the facade
         $this->app->singleton('laracaptcha', function () {
-            return new Laracaptcha;
+            return new LaraCaptcha;
         });
     }
 }
