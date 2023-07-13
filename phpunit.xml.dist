@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" bootstrap="vendor/autoload.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+    <exclude>
+      <directory suffix=".php">./vendor</directory>
+      <directory suffix=".php">./config</directory>
+    </exclude>
+  </coverage>
+  <testsuites>
+    <testsuite name="Unit">
+      <directory>./tests</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <env name="APP_ENV" value="testing"/>
+    <env name="RECAPTCHA_SITE_KEY" value="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"/>
+    <env name="RECAPTCHA_SECRET_KEY" value="6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"/>
+    <env name="RECAPTCHA_SITE_URL" value="127.0.0.1"/>
+    <env name="HCAPTCHA_SITE_KEY" value="10000000-ffff-ffff-ffff-000000000001"/>
+    <env name="HCAPTCHA_SECRET_KEY" value="0x0000000000000000000000000000000000000000"/>
+
+ </php>
+</phpunit>

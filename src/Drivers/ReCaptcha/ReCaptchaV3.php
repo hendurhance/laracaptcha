@@ -102,6 +102,9 @@ class ReCaptchaV3 extends ReCaptchaDriver
      */
     public function script(?string $onload = null, bool $render = false, ?string $locale = null, ?string $recaptchaCompat = null): string
     {
+        if (function_exists('app')) {
+            $this->language = app()->getLocale() ?? config('laracaptcha.locale');
+        }
         return '<script src="' . $this->scriptUrl . '?render=' . $this->siteKey . '&hl=' . $this->language . '"></script>' . "\n";
     }
 

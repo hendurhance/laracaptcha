@@ -59,7 +59,7 @@ class ReCaptchaV2 extends ReCaptchaDriver implements DisplayInvisibleButtonInter
     public function script(?string $onload = null, bool $render = false, ?string $locale = null, ?string $recaptchaCompat = null): string
     {
         // Check application locale.
-        if (!is_null($locale) && function_exists('app')) {
+        if (is_null($locale) && function_exists('app')) {
             $locale = app()->getLocale();
         }
 
@@ -69,7 +69,7 @@ class ReCaptchaV2 extends ReCaptchaDriver implements DisplayInvisibleButtonInter
             'hl' => $locale ?? $this->language,
         ]);
 
-        return '<script src="' . $this->scriptUrl . '?' . $params . '" async defer></script>'."\n";
+        return '<script src="' . $this->scriptUrl . '?' . $params . '" async defer></script>' . "\n";
     }
 
     /**
