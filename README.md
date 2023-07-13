@@ -23,7 +23,7 @@ A Laravel package to seamlessly integrate Google [reCAPTCHA](https://developers.
 | --- | --- | --- | --- |
 | [Google reCAPTCHA](https://developers.google.com/recaptcha/docs/v3) | v3 | - | ✅ Yes |
 | [Google reCAPTCHA](https://developers.google.com/recaptcha/docs/display) | v2 | Checkbox | ✅ Yes |
-| [Google reCAPTCHA](https://developers.google.com/recaptcha/docs/invisible) | v2 | Invisible | Yes |
+| [Google reCAPTCHA](https://developers.google.com/recaptcha/docs/invisible) | v2 | Invisible | ✅ Yes |
 | [hCAPTCHA](https://docs.hcaptcha.com/) | - | Checkbox | ✅ Yes |
 | [hCAPTCHA](https://docs.hcaptcha.com/invisible) | - | Invisible | ✅ Yes |
 
@@ -146,8 +146,7 @@ Add the following to your form:
 ```php
 {!! LaraCaptcha::displayInvisibleButton('formIdentifier', 'Submit Button',['data-size' => 'invisible']) !!}
 ```
-*Note: The first parameter is the form identifier, the second is the button label (Submit Button), and the third is an array of attributes for the widget, see [doc](https://developers.google.com/recaptcha/docs/invisible#render_param)*
-
+*Note: The first parameter is the form identifier, the second is the button label (Submit Button), and the third is an array of attributes for the widget, see [doc](https://developers.google.com/recaptcha/docs/invisible#render_param). Add the **formIdentifier** value as the id in the form element* 
 #### Validating Captcha
 Add the following to your validation rules:
 ```php

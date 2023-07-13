@@ -3,6 +3,7 @@
 namespace Martian\LaraCaptcha\Drivers\HCaptcha;
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 use Martian\LaraCaptcha\Abstracts\Driver;
 use Martian\LaraCaptcha\Contracts\DisplayInvisibleButtonInterface;
 
@@ -137,6 +138,7 @@ class HCaptcha extends Driver implements DisplayInvisibleButtonInterface
             ]);
 
             $body = json_decode($response->getBody(), true);
+            Log::debug('HCaptcha response: ' . json_encode($body));
 
             if (isset($body['success']) && $body['success'] === true) {
                 $this->verifyResponses[] = $res;
