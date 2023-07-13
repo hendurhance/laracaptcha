@@ -48,7 +48,7 @@
                 "Martian\\LaraCaptcha\\Providers\\LaraCaptchaServiceProvider"
             ],
             "aliases": {
-                "LaraCaptcha": "Martian\\LaraCaptcha\\Facade\\LaraCaptchaFacade"
+                "LaraCaptcha": "Martian\\LaraCaptcha\\Facades\\LaraCaptchaFacade"
             }
         }
     }

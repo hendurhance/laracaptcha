@@ -99,7 +99,7 @@ class HCaptcha extends Driver implements DisplayInvisibleButtonInterface
             'onload' => $onload,
             'render' => $render ? 'explicit' : 'onload',
             'hl' => $locale ?? $this->language,
-            'recaptcha' => $recaptchaCompat ? 'on' : 'off',
+            'recaptchacompat' => $recaptchaCompat ? 'on' : 'off',
         ]);
 
         return '<script src="' . $this->scriptUrl . '?' . $params . '" async defer></script>'."\n";

@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'default' => env('CAPTCHA_DRIVER', 'hcaptcha'),
+    'default' => env('CAPTCHA_DRIVER', 'recaptcha'),
 
     /*
     |--------------------------------------------------------------------------
