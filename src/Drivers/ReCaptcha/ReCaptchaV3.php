@@ -29,6 +29,20 @@ class ReCaptchaV3 extends ReCaptchaDriver
     protected string $recaptchaInputName;
 
     /**
+     * reCaptcha Score Enabled
+     * 
+     * @var string
+     */
+    protected string $recaptchaScoreEnabled;
+
+    /**
+     * reCaptcha Settings
+     * 
+     * @var string
+     */
+    protected array $recaptchaSettings;
+
+    /**
      * reCaptchaV3 constructor.
      * 
      * @return void
@@ -39,6 +53,8 @@ class ReCaptchaV3 extends ReCaptchaDriver
         $this->skipByIp = $this->skipByIp();
         $this->recaptchaInputIdentifier = config('laracaptcha.recaptcha_input_identifier');
         $this->recaptchaInputName = config('laracaptcha.recaptcha_input_name');
+        $this->recaptchaScoreEnabled = config('laracaptcha.recaptcha_score_enabled');
+        $this->recaptchaSettings = config('laracaptcha.recaptcha_v3_settings');
     }
 
     /**
@@ -49,16 +65,16 @@ class ReCaptchaV3 extends ReCaptchaDriver
      */
     public function display(array $config = []): string
     {
-        if($this->skipByIp) {
+        if ($this->skipByIp) {
             return '';
         }
-        
-        $action = array_key_exists('action', $config) ? $config['action'] : 'homepage';
+
+        $action = array_key_exists('action', $config) ? $config['action'] : $this->recaptchaSettings['action'];
         $customValidation = array_key_exists('custom_validation', $config) ? $config['custom_validation'] : '';
 
         $recaptchaInputIdentifier = array_key_exists('recaptcha_input_identifier', $config) ? $config['recaptcha_input_identifier'] : $this->recaptchaInputIdentifier;
 
-        if($customValidation) {
+        if ($customValidation) {
             $validateFunction = ($customValidation) ? "{$customValidation}(token);" : '';
         } else {
             $validateFunction = '';
@@ -98,7 +114,94 @@ class ReCaptchaV3 extends ReCaptchaDriver
      */
     public function validate($res, string $ipAddress = null): bool
     {
-       return false;
+        if (!$this->recaptchaScoreEnabled || ($ipAddress && $this->skipByIp())) {
+            return true;
+        }
+
+        // Check if the response has already been verified
+        if (in_array($res, $this->verifyResponses)) {
+            return true;
+        }
+
+        try {
+            $response = $this->client->post($this->verifyUrl, [
+                'form_params' => [
+                    'secret' => $this->secret,
+                    'response' => $res,
+                    'remoteip' => $ipAddress,
+                ],
+            ]);
+
+            $body = json_decode($response->getBody(), true);
+            
+            if (isset($body['success']) && $body['success'] === true) {
+                if ($this->recaptchaScoreEnabled) {
+                    if($this->recaptchaSettings['score_comparison'] && !$this->validScore($body['score'])) {
+                        return false;
+                    }
+
+                    if (!$this->validHostname($body['hostname'])) {
+                        return false;
+                    }
+
+                    if (!$this->validAction($body['action'])) {
+                        return false;
+                    }
+                }
+
+                $this->verifyResponses[] = $res;
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Check if reCaptcha Action is valid.
+     * 
+     * @param string $action
+     * @return bool
+     */
+    public function validAction(string $action): bool
+    {
+        if ($action && $action === $this->recaptchaSettings['action']) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if reCaptcha Score is valid.
+     * 
+     * @param float $score
+     * @return bool
+     */
+    public function validScore(float $score): bool
+    {
+        if ($score && $score >= $this->recaptchaSettings['minimum_score']) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if reCaptcha Hostname is valid.
+     * 
+     * @param string $hostname
+     * @return bool
+     */
+    public function validHostname(string $hostname): bool
+    {
+        if ($hostname && $hostname === $this->siteUrl) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

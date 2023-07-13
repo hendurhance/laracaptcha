@@ -105,6 +105,39 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | reCaptcha Score Enabled
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure whether to enable score validation when
+    | validating reCaptcha v3 challenges. This is useful when testing
+    | locally.
+    |
+    */
+
+    'recaptcha_score_enabled' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | reCaptcha v3 Settings
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure the settings used when validating reCaptcha v3
+    | challenges. This is useful to check 
+    | action: Google reCAPTCHA v3 action
+    | minimum_score: Google reCAPTCHA v3 minimum score
+    | score_comparison: Google reCAPTCHA v3 score comparison (true/false)
+    |
+    */
+
+    'recaptcha_v3_settings' => [
+        'action' => 'homepage',
+        'minimum_score' => 0.5,
+        'score_comparison' => true,
+    ],
+
+
+    /*
+    |--------------------------------------------------------------------------
     | Captcha Error Message
     |--------------------------------------------------------------------------
     |
