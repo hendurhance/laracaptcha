@@ -2,8 +2,10 @@
 
 namespace Martian\LaraCaptcha\Providers;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Martian\LaraCaptcha\LaraCaptcha;
+use Illuminate\Support\Facades\Validator;
 
 class LaraCaptchaServiceProvider extends ServiceProvider
 {
@@ -24,25 +26,17 @@ class LaraCaptchaServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../../config/laracaptcha.php' => config_path('laracaptcha.php'),
             ], 'config');
-
-            // Publishing the views.
-            /*$this->publishes([
-                __DIR__.'/../resources/views' => resource_path('views/vendor/laracaptcha'),
-            ], 'views');*/
-
-            // Publishing assets.
-            /*$this->publishes([
-                __DIR__.'/../resources/assets' => public_path('vendor/laracaptcha'),
-            ], 'assets');*/
-
-            // Publishing the translation files.
-            /*$this->publishes([
-                __DIR__.'/../resources/lang' => resource_path('lang/vendor/laracaptcha'),
-            ], 'lang');*/
-
-            // Registering package commands.
-            // $this->commands([]);
         }
+
+        // hCaptcha
+        Validator::extend(config('laracaptcha.validation_rule.hcaptcha'), function ($attribute, $value, $parameters, $validator) {
+            return (new LaraCaptcha())->validate($value, request()->ip());
+        }, config('laracaptcha.error_message'));
+
+        // reCaptcha v2 & v3
+        Validator::extend(config('laracaptcha.validation_rule.recaptcha'), function ($attribute, $value, $parameters, $validator) {
+            return (new LaraCaptcha())->validate($value, request()->ip());
+        }, config('laracaptcha.error_message'));
     }
 
     /**

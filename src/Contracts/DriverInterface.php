@@ -10,7 +10,7 @@ interface DriverInterface
    * @param array $attributes
    * @return string
    */
-  public function display(): string;
+  public function display(array $attributes = []): string;
 
   /**
    * Display captcha javascript.

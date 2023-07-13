@@ -36,7 +36,7 @@ return [
             'site_url' => env('RECAPTCHA_SITE_URL'), // Used for reCAPTCHA v3 'action
             'script_url' => 'https://www.google.com/recaptcha/api.js',
             'verify_url' => 'https://www.google.com/recaptcha/api/siteverify',
-            'version' => 'v2', // Supported: v2, v3
+            'version' => 'v3', // Supported: v2, v3
             'options' => [
                 'timeout' => 30,
             ],
@@ -105,6 +105,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | hCaptcha Input Name
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure the name of the captcha input field. This is
+    | useful when using multiple captcha challenges on the same page.
+    |
+    */
+
+    'hcaptcha_input_name' => 'h-recaptcha-response',
+
+    /*
+    |--------------------------------------------------------------------------
     | reCaptcha Score Enabled
     |--------------------------------------------------------------------------
     |
@@ -147,7 +159,7 @@ return [
     |
     */
 
-    'error_message' => 'The captcha challenge was incorrect.',
+    'error_message' => 'The captcha challenge was not completed successfully, please try again.',
 
     /*
     |--------------------------------------------------------------------------
@@ -159,90 +171,8 @@ return [
     |
     */
 
-    'validation_rule' => 'captcha',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Captcha Validation Error Code
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure the error code returned when captcha validation
-    | fails. This code is used when the "captcha" validation rule
-    | fails.
-    |
-    */
-
-    'validation_error_code' => 'captcha_invalid',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Captcha Validation Error Message
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure the error message returned when captcha validation
-    | fails. This message is used when the "captcha" validation rule
-    | fails.
-    |
-    */
-
-    'validation_error_message' => 'The captcha challenge was incorrect.',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Captcha Validation Error Status Code
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure the error status code returned when captcha validation
-    | fails. This code is used when the "captcha" validation rule
-    | fails.
-    |
-    */
-
-    'validation_error_status_code' => 422,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Captcha Validation Error Headers
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure the error headers returned when captcha validation
-    | fails. This code is used when the "captcha" validation rule
-    | fails.
-    |
-    */
-
-    'validation_error_headers' => [
-        'Content-Type' => 'application/json',
+    'validation_rule' => [
+        'recaptcha' => 'recaptcha',
+        'hcaptcha' => 'hcaptcha',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Captcha Validation Error Format
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure the error format returned when captcha validation
-    | fails. This code is used when the "captcha" validation rule
-    | fails.
-    |
-    */
-
-    'validation_error_format' => [
-        'message' => ':message',
-        'errors' => [],
-        'code' => ':code',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Captcha Validation Error Code
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure the error code returned when captcha validation
-    | fails. This code is used when the "captcha" validation rule
-    | fails.
-    |
-    */
-
-    'validation_error_code' => 'captcha_invalid',
-    
 ];
