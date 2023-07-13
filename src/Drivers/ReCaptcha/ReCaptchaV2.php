@@ -2,7 +2,6 @@
 
 namespace Martian\LaraCaptcha\Drivers\ReCaptcha;
 
-use Illuminate\Support\Facades\Log;
 use Martian\LaraCaptcha\Abstracts\ReCaptchaDriver;
 use Martian\LaraCaptcha\Contracts\DisplayInvisibleButtonInterface;
 

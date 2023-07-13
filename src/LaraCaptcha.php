@@ -2,7 +2,6 @@
 
 namespace Martian\LaraCaptcha;
 
-use Illuminate\Support\Facades\Log;
 use Martian\LaraCaptcha\Contracts\DisplayInvisibleButtonInterface;
 use Martian\LaraCaptcha\Contracts\DriverInterface;
 use Martian\LaraCaptcha\Drivers\HCaptcha\HCaptcha;
@@ -21,8 +20,9 @@ class LaraCaptcha implements DriverInterface, DisplayInvisibleButtonInterface
     /**
      * LaraCaptcha Driver
      * 
+     * @var DriverInterface
      */
-    protected $driver;
+    protected DriverInterface $driver;
 
     /**
      * LaraCaptcha constructor.
@@ -37,15 +37,16 @@ class LaraCaptcha implements DriverInterface, DisplayInvisibleButtonInterface
     /**
      * Get Driver
      * 
+     * @return DriverInterface
      */
-    public function getDriver()
+    public function getDriver(): DriverInterface
     {
         switch ($this->defaultDriver) {
             case 'hcaptcha':
-                return HCaptcha::class;
+                return new HCaptcha();
                 break;
             case 'recaptcha':
-                return ReCaptcha::class;
+                return new ReCaptcha();
                 break;
             default:
                 throw new UnsupportedVersionException("Unsupported LaraCaptcha version: {$this->defaultDriver}, supported versions are: hcaptcha, recaptcha");
@@ -60,7 +61,7 @@ class LaraCaptcha implements DriverInterface, DisplayInvisibleButtonInterface
      */
     public function display(array $attributes = []): string
     {
-        return (new $this->driver)->display($attributes);
+        return $this->driver->display($attributes);
     }
 
     /**
@@ -74,7 +75,7 @@ class LaraCaptcha implements DriverInterface, DisplayInvisibleButtonInterface
      */
     public function displayInvisibleButton(string $formId = null, ?string $label, array $attributes = []): string
     {
-        return (new $this->driver)->displayInvisibleButton($formId, $label, $attributes);
+        return $this->driver->displayInvisibleButton($formId, $label, $attributes);
     }
 
     /**
@@ -88,7 +89,7 @@ class LaraCaptcha implements DriverInterface, DisplayInvisibleButtonInterface
      */
     public function script(?string $onload = null, bool $render = false, ?string $locale = null, ?string $recaptchaCompat = null): string
     {
-        return (new $this->driver)->script($onload, $render, $locale, $recaptchaCompat);
+        return $this->driver->script($onload, $render, $locale, $recaptchaCompat);
     }
 
     /**
@@ -103,6 +104,6 @@ class LaraCaptcha implements DriverInterface, DisplayInvisibleButtonInterface
         if(empty($res)) {
             return false;
         }
-        return (new $this->driver)->validate($res, $ipAddress);
+        return $this->driver->validate($res, $ipAddress);
     }
 }

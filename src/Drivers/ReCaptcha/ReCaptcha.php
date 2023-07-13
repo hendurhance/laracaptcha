@@ -2,7 +2,6 @@
 
 namespace Martian\LaraCaptcha\Drivers\ReCaptcha;
 
-use Illuminate\Support\Facades\Log;
 use Martian\LaraCaptcha\Contracts\DisplayInvisibleButtonInterface;
 use Martian\LaraCaptcha\Contracts\DriverInterface;
 use Martian\LaraCaptcha\Exceptions\UnsupportedVersionException;
@@ -19,8 +18,9 @@ class ReCaptcha implements DriverInterface, DisplayInvisibleButtonInterface
     /**
      * reCaptcha Driver
      * 
+     * @var DriverInterface
      */
-    protected $versionDriver;
+    protected DriverInterface $versionDriver;
 
     /**
      * reCaptcha constructor.
@@ -36,16 +36,16 @@ class ReCaptcha implements DriverInterface, DisplayInvisibleButtonInterface
     /**
      * Get Driver
      * 
+     * @return DriverInterface
      */
-    public function getVersionDriver()
+    public function getVersionDriver(): DriverInterface
     {
         switch ($this->version) {
             case 'v2':
-                return ReCaptchaV2::class;
+                return new ReCaptchaV2();
                 break;
             case 'v3':
-                Log::warning('reCaptcha v3 is still in beta, use it at your own risk.');
-                return ReCaptchaV3::class;
+                return new ReCaptchaV3();
                 break;
             default:
                 throw new UnsupportedVersionException("Unsupported reCaptcha version: {$this->version}, supported versions are: v2, v3");
@@ -60,7 +60,7 @@ class ReCaptcha implements DriverInterface, DisplayInvisibleButtonInterface
      */
     public function display(array $attributes = []): string
     {
-        return (new $this->versionDriver)->display($attributes);
+        return $this->versionDriver->display($attributes);
     }
 
     /**
@@ -74,7 +74,7 @@ class ReCaptcha implements DriverInterface, DisplayInvisibleButtonInterface
      */
     public function script(?string $onload = null, bool $render = false, ?string $locale = null, ?string $recaptchaCompat = null): string
     {
-        return (new $this->versionDriver)->script($onload, $render, $locale, $recaptchaCompat);
+        return $this->versionDriver->script($onload, $render, $locale, $recaptchaCompat);
     }
 
     /**
@@ -86,7 +86,7 @@ class ReCaptcha implements DriverInterface, DisplayInvisibleButtonInterface
      */
     public function validate($res, string $ipAddress = null): bool
     {
-        return (new $this->versionDriver)->validate($res, $ipAddress);
+        return $this->versionDriver->validate($res, $ipAddress);
     }
 
     /**
@@ -99,10 +99,10 @@ class ReCaptcha implements DriverInterface, DisplayInvisibleButtonInterface
      */
     public function displayInvisibleButton(string $formId = null, ?string $label, array $attributes = []): string
     {
-       if ($this->version === 'v3') {
-           throw new UnsupportedVersionException("Unsupported reCaptcha version: {$this->version}, supported versions are: v2");
-       }
+        if ($this->version === 'v3') {
+            throw new UnsupportedVersionException("Unsupported reCaptcha version: {$this->version}, supported versions are: v2");
+        }
 
-         return (new $this->versionDriver)->displayInvisibleButton($formId, $label, $attributes);
+        return $this->versionDriver->displayInvisibleButton($formId, $label, $attributes);
     }
 }
