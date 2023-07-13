@@ -19,6 +19,9 @@
         "recaptcha-v2",
         "recaptcha-v2-invisible",
         "recaptcha-v2-checkbox",
+        "laravel recaptcha",
+        "recaptcha v3",
+        "recaptcha v2"
     ],
     "homepage": "https://github.com/hendurhance/laracaptcha",
     "license": "MIT",
