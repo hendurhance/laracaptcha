@@ -110,7 +110,7 @@ class ReCaptcha implements DriverInterface, DisplayInvisibleButtonInterface
      * @param array $attributes
      * @return string
      */
-    public function displayInvisibleButton(string $formId = null, ?string $label, array $attributes = []): string
+    public function displayInvisibleButton(?string $formId = null, ?string $label = null, array $attributes = []): string
     {
         if ($this->version === 'v3') {
             throw new UnsupportedVersionException("Unsupported reCaptcha version: {$this->version}, supported versions are: v2");

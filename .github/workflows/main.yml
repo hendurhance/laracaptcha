@@ -2,9 +2,9 @@ name: run-tests
 
 on:
     push:
-        branches: [master]
+        branches: [main]
     pull_request:
-        branches: [master]
+        branches: [main]
 
 jobs:
     test:
@@ -13,18 +13,20 @@ jobs:
             fail-fast: true
             matrix:
                 os: [ubuntu-latest, windows-latest]
-                php: [7.4, 8.0]
-                laravel: [8.*]
+                php: [8.2, 8.4]
+                laravel: [11.*, 12.*]
                 stability: [prefer-lowest, prefer-stable]
                 include:
-                    - laravel: 8.*
-                      testbench: ^6.6
+                    - laravel: 11.*
+                      testbench: ^9.0
+                    - laravel: 12.*
+                      testbench: ^10.0
 
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
@@ -43,3 +45,10 @@ jobs:
                   composer update --${{ matrix.stability }} --prefer-dist --no-interaction
             - name: Execute tests
               run: vendor/bin/phpunit
+              env:
+                  APP_ENV: testing
+                  RECAPTCHA_SITE_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
+                  RECAPTCHA_SECRET_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
+                  RECAPTCHA_SITE_URL: 127.0.0.1
+                  HCAPTCHA_SITE_KEY: 10000000-ffff-ffff-ffff-000000000001
+                  HCAPTCHA_SECRET_KEY: 0x0000000000000000000000000000000000000000

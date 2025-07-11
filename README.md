@@ -29,7 +29,7 @@ A Laravel package to seamlessly integrate Google [reCAPTCHA](https://developers.
 
 
 ## Installation
-> **Note:** This package requires PHP 7.4 or higher.
+> **Note:** This package requires PHP 8.2 or higher and Laravel 11.0 or higher.
 
 You can install the package via composer:
 
@@ -196,7 +196,7 @@ Add the following to the `<head>` section of your page:
 ```
 With other options in [hCAPTCHA dox](https://docs.hcaptcha.com/configuration)
 ```php
-{!! LaraCaptcha::script('yourCallbackFunction', 'onload' 'en', 'on') !!}
+{!! LaraCaptcha::script('yourCallbackFunction', 'onload', 'en', 'on') !!}
 ```
 *Note: The first parameter is the callback function name, the second is the rendering mode (onload or explicit), the third is the language code from [doc](https://docs.hcaptcha.com/languages), and the fourth is the recaptchacompat option*
 
