@@ -17,7 +17,7 @@ namespace Martian\LaraCaptcha\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Martian\LaraCaptcha\Skeleton\SkeletonClass
+ * @see \Martian\LaraCaptcha\LaraCaptcha
  */
 class LaraCaptchaFacade extends Facade
 {

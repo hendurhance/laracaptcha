@@ -74,7 +74,7 @@ class HCaptcha extends Driver implements DisplayInvisibleButtonInterface
      * @param array $attributes
      * @return string
      */
-    public function displayInvisibleButton(string $formId = null, ?string $label, array $attributes = []): string
+    public function displayInvisibleButton(?string $formId = null, ?string $label = null, array $attributes = []): string
     {
         $script = '';
 

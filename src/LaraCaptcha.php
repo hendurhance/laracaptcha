@@ -86,7 +86,7 @@ class LaraCaptcha implements DriverInterface, DisplayInvisibleButtonInterface
      * @return string
      * 
      */
-    public function displayInvisibleButton(string $formId = null, ?string $label, array $attributes = []): string
+    public function displayInvisibleButton(?string $formId = null, ?string $label = null, array $attributes = []): string
     {
         return $this->driver->displayInvisibleButton($formId, $label, $attributes);
     }
