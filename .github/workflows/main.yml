@@ -47,8 +47,8 @@ jobs:
               run: vendor/bin/phpunit
               env:
                   APP_ENV: testing
-                  RECAPTCHA_SITE_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
-                  RECAPTCHA_SECRET_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
-                  RECAPTCHA_SITE_URL: 127.0.0.1
-                  HCAPTCHA_SITE_KEY: 10000000-ffff-ffff-ffff-000000000001
-                  HCAPTCHA_SECRET_KEY: 0x0000000000000000000000000000000000000000
+                  RECAPTCHA_SITE_KEY: ${{ secrets.RECAPTCHA_SITE_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI' }}
+                  RECAPTCHA_SECRET_KEY: ${{ secrets.RECAPTCHA_SECRET_KEY || '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe' }}
+                  RECAPTCHA_SITE_URL: ${{ secrets.RECAPTCHA_SITE_URL || '127.0.0.1' }}
+                  HCAPTCHA_SITE_KEY: ${{ secrets.HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001' }}
+                  HCAPTCHA_SECRET_KEY: ${{ secrets.HCAPTCHA_SECRET_KEY || '0x0000000000000000000000000000000000000000' }}
