@@ -29,7 +29,7 @@ A Laravel package to seamlessly integrate Google [reCAPTCHA](https://developers.
 
 
 ## Installation
-> **Note:** This package requires PHP 8.2 or higher and Laravel 11.0 or higher.
+> **Note:** This package supports Laravel 12 and 13. It requires PHP 8.2 or higher (Laravel 13 itself requires PHP 8.3 or higher).
 
 You can install the package via composer:
 

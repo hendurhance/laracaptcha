@@ -40,8 +40,8 @@ interface DriverInterface
    * Validate captcha challenge.
    * 
    * @param $res
-   * @param string $ipAddress
+   * @param ?string $ipAddress
    * @return bool
    */
-  public function validate($res, string $ipAddress = null): bool;
+  public function validate($res, ?string $ipAddress = null): bool;
 }

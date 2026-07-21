@@ -18,6 +18,7 @@ namespace Martian\LaraCaptcha\Tests\Unit\ReCaptcha;
 use Illuminate\Support\Facades\Config;
 use Martian\LaraCaptcha\Drivers\ReCaptcha\ReCaptchaV3;
 use Martian\LaraCaptcha\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ReCaptchaV3DriverTest extends TestCase
 {
@@ -41,48 +42,54 @@ class ReCaptchaV3DriverTest extends TestCase
     }
 
     /**
-     * @test it can get site key
+     * It can get site key
      */
+    #[Test]
     public function it_get_site_key()
     {
         $this->assertEquals('6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI', $this->config['site_key']);
     }
 
     /**
-     * @test it can get secret key
+     * It can get secret key
      */
+    #[Test]
     public function it_get_secret_key()
     {
         $this->assertEquals('6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe', $this->config['secret_key']);
     }
 
     /**
-     * @test it can get site url
+     * It can get site url
      */
+    #[Test]
     public function it_get_site_url()
     {
         $this->assertEquals('127.0.0.1', $this->config['site_url']);
     }
 
     /**
-     * @test it can get correct version
+     * It can get correct version
      */
+    #[Test]
     public function it_get_correct_version()
     {
         $this->assertEquals('v3', $this->config['version']);
     }
 
     /**
-     * @test it can get javascript script
+     * It can get javascript script
      */
+    #[Test]
     public function it_get_javascript_script()
     {
         $this->assertEquals('<script src="https://www.google.com/recaptcha/api.js?render=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI&hl=en"></script>' . "\n", $this->driver->script());
     }
 
     /**
-     * @test it can get javascript script with language
+     * It can get javascript script with language
      */
+    #[Test]
     public function it_get_javascript_script_with_language()
     {
         $this->app->setLocale('fr');
@@ -90,8 +97,9 @@ class ReCaptchaV3DriverTest extends TestCase
     }
 
     /**
-     * @test it can get display widget
+     * It can get display widget
      */
+    #[Test]
     public function it_get_display_widget()
     {
         $input = '<input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response-laracaptcha">';
