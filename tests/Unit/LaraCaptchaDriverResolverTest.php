@@ -18,6 +18,7 @@ namespace Martian\LaraCaptcha\Tests\Unit;
 use Illuminate\Support\Facades\Config;
 use Martian\LaraCaptcha\LaraCaptcha;
 use Martian\LaraCaptcha\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class LaraCaptchaDriverResolverTest extends TestCase
 {
@@ -39,16 +40,18 @@ class LaraCaptchaDriverResolverTest extends TestCase
     }
 
     /**
-     * @test it can get default driver
+     * It can get default driver
      */
+    #[Test]
     public function it_get_default_driver()
     {
         $this->assertEquals('recaptcha', $this->defaultDriver);
     }
 
     /**
-     * @test it can get hcaptcha driver as default if set
+     * It can get hcaptcha driver as default if set
      */
+    #[Test]
     public function it_get_hcaptcha_driver()
     {
        Config::set('laracaptcha.default', 'hcaptcha');
@@ -56,8 +59,9 @@ class LaraCaptchaDriverResolverTest extends TestCase
     }
 
     /**
-     * @test it can get correct hcaptcha script when using hcaptcha driver
+     * It can get correct hcaptcha script when using hcaptcha driver
      */
+    #[Test]
     public function it_get_correct_hcaptcha_javascript_script()
     {
         Config::set('laracaptcha.default', 'hcaptcha');
@@ -66,8 +70,9 @@ class LaraCaptchaDriverResolverTest extends TestCase
     }
 
     /**
-     * @test it can get correct recaptcha script when using recaptcha driver
+     * It can get correct recaptcha script when using recaptcha driver
      */
+    #[Test]
     public function it_get_correct_recaptcha_javascript_script()
     {
         Config::set('laracaptcha.default', 'recaptcha');
@@ -76,8 +81,9 @@ class LaraCaptchaDriverResolverTest extends TestCase
     }
 
     /**
-     * @test it can get correct recaptcha invisible button when using correct version
+     * It can get correct recaptcha invisible button when using correct version
      */
+    #[Test]
     public function it_get_correct_recaptcha_invisible_button()
     {
         Config::set('laracaptcha.default', 'recaptcha');

@@ -89,10 +89,10 @@ class ReCaptchaV2 extends ReCaptchaDriver implements DisplayInvisibleButtonInter
      * Validate ReCaptcha response.
      * 
      * @param $res
-     * @param string $ipAddress
+     * @param ?string $ipAddress
      * @return bool
      */
-    public function validate($res, string $ipAddress = null): bool
+    public function validate($res, ?string $ipAddress = null): bool
     {
         if (empty($res)) {
             return false;

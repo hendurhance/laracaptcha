@@ -125,10 +125,10 @@ class ReCaptchaV3 extends ReCaptchaDriver
      * Validate ReCaptcha response.
      * 
      * @param $res
-     * @param string $ipAddress
+     * @param ?string $ipAddress
      * @return bool
      */
-    public function validate($res, string $ipAddress = null): bool
+    public function validate($res, ?string $ipAddress = null): bool
     {
         if (!$this->recaptchaScoreEnabled || ($ipAddress && $this->skipByIp())) {
             return true;
